@@ -28,3 +28,11 @@ TEST_F(MapTest,getCellTest){
 	EXPECT_EQ(1,map.getCell(99,1));
 	EXPECT_EQ(1,map.getCell(-99,1));
 }
+TEST_F(MapTest,clearTest){
+	map.clearMap();
+	for(auto j = map.x_min; j <= map.x_max; j++){
+		for(auto k = map.y_min; k <= map.y_max; k++){
+			EXPECT_EQ(0,map.getCell(j,k));
+		}
+	}
+}

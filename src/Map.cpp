@@ -59,7 +59,7 @@ void Map::printMap(const Vec2i curr, const Vec2i target) const {
 		outString << j;
 		outString << '\t';
 		for (auto k = x_min; k <= x_max; k++) {
-			auto status = getCell(j, k);
+			auto status = getCell(k, j);
 			if (k == curr.x && j == curr.y)
 				outString << 'x';
 			else if (k == target.x && j == target.y)
@@ -70,4 +70,8 @@ void Map::printMap(const Vec2i curr, const Vec2i target) const {
 		printf("%s\n",outString.str().c_str());
 		outString.str("");
 	}
+}
+
+void Map::clearMap() {
+	memset(cleanMap_,0,sizeof(cleanMap_));
 }

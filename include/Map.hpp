@@ -4,6 +4,7 @@
 #include <map>
 #include "Vec2.hpp"
 #include "../config/config.hpp"
+#include <memory>
 
 #ifndef A_START_MAP_HPP
 #define A_START_MAP_HPP
@@ -21,11 +22,9 @@ public:
 	void setCell(int16_t x, int16_t y, CellState status);
 	CellState getCell(int16_t x, int16_t y) const;
 	void printMap(const Vec2i curr, const Vec2i target) const;
+	void clearMap();
 	CellState cleanMap_[MAP_SIZE][MAP_SIZE];
+	int16_t x_min, x_max, y_min, y_max;
 private:
-	int16_t x_min;
-	int16_t x_max;
-	int16_t y_min;
-	int16_t y_max;
 };
 #endif //A_START_MAP_HPP
