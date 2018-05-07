@@ -11,14 +11,12 @@
 enum CellState{
 	UNCLEANABLE = 0,
 	CLEANABLE,
+	OBSTACLE,
 };
 typedef std::pair<CellState,Vec2i> Cell;
 class Map{
 public:
-	static Map& Instance(){
-		static Map instance;
-		return instance;
-	}
+
 	void setCell(int16_t x, int16_t y, CellState status);
 	CellState getCell(int16_t x, int16_t y) const;
 	void printMap(const Vec2i curr, const Vec2i target) const;
