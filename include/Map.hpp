@@ -22,6 +22,7 @@ public:
 		current_ = _current;
 		target_ = _target;
 	}
+
 	void setCell(int16_t x, int16_t y, CellState status);
 	CellState getCell(int16_t x, int16_t y) const;
 	void printMap() const;
@@ -32,6 +33,7 @@ public:
 	Vec2i getTarget() const{
 		return target_;
 	}
+
 private:
 	Vec2i current_{};
 	Vec2i target_{};

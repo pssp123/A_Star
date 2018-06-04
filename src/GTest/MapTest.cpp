@@ -1,10 +1,10 @@
-#include <gtest/gtest.h>
+//#include <gtest/gtest.h>
 #include <Map.hpp>
 
 //
 // Created by pierre on 18-5-3.
 //
-class MapTest : public testing::Test{
+/*class MapTest : public testing::Test{
 public:
 	virtual void SetUp(){
 		map.setCell(2,1,CLEANABLE);
@@ -35,4 +35,4 @@ TEST_F(MapTest,clearTest){
 			EXPECT_EQ(0,map.getCell(j,k));
 		}
 	}
-}
+}*/

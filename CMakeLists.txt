@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.8)
 project(A_Start)
-find_package(GTest REQUIRED)
+#find_package(GTest REQUIRED)
 INCLUDE_DIRECTORIES(include config)
 
 set(CMAKE_CXX_STANDARD 11)
@@ -13,4 +13,4 @@ set(SOURCE_FILES
         include/Generator.hpp src/Generator.cpp
         include/PathAlgorithm.hpp src/PathAlgorithm.cpp)
 add_executable(A_Start ${SOURCE_FILES})
-target_link_libraries(A_Start GTest::GTest)
+#target_link_libraries(A_Start GTest::GTest)

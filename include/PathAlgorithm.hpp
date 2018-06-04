@@ -6,9 +6,13 @@
 #define A_START_PATHALGORITHM_HPP
 
 
+#include "Vec2.hpp"
+#include "Map.hpp"
+
 class PathAlgorithm {
 public:
 	static Path getShortPath(const Map& map);
+	static Path reconstructPath(const Vec2Set& current);
 };
 
 

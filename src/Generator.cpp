@@ -23,11 +23,11 @@ void Generator::generataMap(Map& map) {
 		map.setCell(5,i,OBSTACLE);
 
 	//set current and target
-	map.setCell(map.getCurrent().x,map.getCurrent().y,START);
-	map.setCell(map.getTarget().x,map.getTarget().y,TARGET);
+	map.setCell(map.getCurrent().x_,map.getCurrent().y_,START);
+	map.setCell(map.getTarget().x_,map.getTarget().y_,TARGET);
 }
-int Generator::heuristic(int16_t x, int16_t y, Vec2i &target) {
-	return static_cast<int>(std::sqrt(std::pow(target.x - x, 2) + std::pow(target.y- y, 2)));
+int Generator::heuristic(const Vec2i& start, const Vec2i& target) const{
+	return static_cast<int>(std::sqrt(std::pow(target.x_ - start.x_, 2) + std::pow(target.y_- start.y_, 2)));
 }
 
 Path Generator::getShortPath(const Map &map) {

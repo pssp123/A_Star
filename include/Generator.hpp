@@ -12,7 +12,7 @@ public:
 		return &instance;
 	}
 	void generataMap(Map& map);
-	int heuristic(int16_t x, int16_t y, Vec2i& target);
+	int heuristic(const Vec2i& start, const Vec2i& target) const;
 	Path getShortPath(const Map& map);
 };
 
