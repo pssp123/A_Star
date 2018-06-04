@@ -5,14 +5,14 @@
 #include "gtest/gtest.h"
 using namespace std;
 void Map::setCell(int16_t x, int16_t y, CellState status) {
-	if(x < x_min)
-		x_min = x;
-	else if(x > x_max)
-		x_max = x;
-	if(y < y_min)
-		y_min = y;
-	else if(y > y_max)
-		y_max = y;
+	if(x < xMin_)
+		xMin_ = x;
+	else if(x > xMax_)
+		xMax_ = x;
+	if(y < yMin_)
+		yMin_ = y;
+	else if(y > yMax_)
+		yMax_ = y;
 
 	int16_t row = static_cast<int16_t>(MAP_SIZE / 2 + x);
 	int16_t column = static_cast<int16_t>(MAP_SIZE / 2 - y);
@@ -33,11 +33,11 @@ CellState Map::getCell(int16_t x, int16_t y) const{
 	return status;
 }
 
-void Map::printMap(const Vec2i curr, const Vec2i target) const {
+void Map::printMap() const {
 	ostringstream outString;
 	outString.str("");
 	outString << '\t' << '\t';
-	for (auto i = x_min; i <= x_max; i++) {
+	for (auto i = xMin_; i <= xMax_; i++) {
 		if (abs(i) % 10 == 0) {
 			outString << std::abs(i/10);
 		} else {
@@ -48,21 +48,21 @@ void Map::printMap(const Vec2i curr, const Vec2i target) const {
 
 	outString.str("");
 	outString << '\t' << '\t';
-	for (auto i = x_min; i <= x_max; i++) {
+	for (auto i = xMin_; i <= xMax_; i++) {
 		outString << abs(i) % 10;
 	}
 	printf("%s\n",outString.str().c_str());
 
 	outString.str("");
-	for (auto j = y_max; j >= y_min; j--) {
+	for (auto j = yMax_; j >= yMin_; j--) {
 		outString.width(4);
 		outString << j;
 		outString << '\t';
-		for (auto k = x_min; k <= x_max; k++) {
+		for (auto k = xMin_; k <= xMax_; k++) {
 			auto status = getCell(k, j);
-			if (k == curr.x && j == curr.y)
+			if (status == START)
 				outString << 'x';
-			else if (k == target.x && j == target.y)
+			else if (status == TARGET)
 				outString << 'e';
 			else
 				outString << status;

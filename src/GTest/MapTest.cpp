@@ -30,8 +30,8 @@ TEST_F(MapTest,getCellTest){
 }
 TEST_F(MapTest,clearTest){
 	map.clearMap();
-	for(auto j = map.x_min; j <= map.x_max; j++){
-		for(auto k = map.y_min; k <= map.y_max; k++){
+	for(auto j = map.xMin_; j <= map.xMax_; j++){
+		for(auto k = map.yMin_; k <= map.yMax_; k++){
 			EXPECT_EQ(0,map.getCell(j,k));
 		}
 	}
