@@ -13,7 +13,6 @@ public:
 	}
 	Map generataMap();
 	int heuristic(int16_t x, int16_t y, Vec2i& target);
-
 };
 
 #endif //A_START_GENERATOR_HPP
