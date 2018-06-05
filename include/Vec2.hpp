@@ -40,15 +40,15 @@ public:
 		h_ = _h;
 	}
 	bool operator<(const Vec2Set& r) const{
-		return this->f_ < r.f_;
+		return this->f_ > r.f_;
 	}
 	Vec2Set operator+(const Vec2Set& r) const{
 		return Vec2Set{this->x_ + r.x_, this->y_ + r.y_};
 	}
-	int f_{};
+	double f_{};
 	int g_{};
-	int h_{};
-	Vec2Set* cameFrom{nullptr};
+	double h_{};
+	Vec2Set* p_cameFrom_{nullptr};
 };
 
 class PathSet : public std::list<Vec2Set>{

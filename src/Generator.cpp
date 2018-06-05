@@ -26,9 +26,7 @@ void Generator::generataMap(Map& map) {
 	map.setCell(map.getCurrent().x_,map.getCurrent().y_,START);
 	map.setCell(map.getTarget().x_,map.getTarget().y_,TARGET);
 }
-int Generator::heuristic(const Vec2i& start, const Vec2i& target) const{
-	return static_cast<int>(std::sqrt(std::pow(target.x_ - start.x_, 2) + std::pow(target.y_- start.y_, 2)));
-}
+
 
 Path Generator::getShortPath(const Map &map) {
 	return PathAlgorithm::getShortPath(map);
