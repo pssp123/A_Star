@@ -2,6 +2,7 @@
 // Created by pierre on 18-5-3.
 //
 #include <Map.hpp>
+
 #include "gtest/gtest.h"
 using namespace std;
 void Map::setCell(int16_t x, int16_t y, CellState status) {
@@ -38,7 +39,7 @@ void Map::printMap() const {
 	outString.str("");
 	outString << '\t' << '\t';
 	for (auto i = xMin_; i <= xMax_; i++) {
-		if (abs(i) % 10 == 0) {
+		if ((int)abs(i) % 10 == 0) {
 			outString << std::abs(i/10);
 		} else {
 			outString << ' ';
@@ -49,7 +50,7 @@ void Map::printMap() const {
 	outString.str("");
 	outString << '\t' << '\t';
 	for (auto i = xMin_; i <= xMax_; i++) {
-		outString << abs(i) % 10;
+		outString << (int)abs(i) % 10;
 	}
 	printf("%s\n",outString.str().c_str());
 

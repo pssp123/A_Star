@@ -1,7 +1,9 @@
 //
 // Created by pierre on 18-5-2.
 //
-#include <vector>
+#include <queue>
+#include <list>
+#include <algorithm>
 
 #ifndef A_START_VEC2I_HPP
 #define A_START_VEC2I_HPP
@@ -15,7 +17,7 @@ public:
 	}
 	T x_;
 	T y_;
-	bool operator==(const Vec2& r) const{
+	bool operator==(const Vec2<T>& r) const{
 		return this->x_ == r.x_ && this->y_ == r.y_;
 	}
 };
@@ -23,9 +25,13 @@ public:
 typedef Vec2<int> Vec2i;
 typedef std::vector<Vec2i> Path;
 
-class Vec2Set: public Vec2i{
+class Vec2Set : public Vec2i{
 public:
 	Vec2Set(){}
+	Vec2Set(int _x, int _y){
+		x_ = _x;
+		y_ = _y;
+	}
 	Vec2Set(int _x, int _y, int _f, int _g, int _h){
 		x_ = _x;
 		y_ = _y;
@@ -36,12 +42,22 @@ public:
 	bool operator<(const Vec2Set& r) const{
 		return this->f_ < r.f_;
 	}
+	Vec2Set operator+(const Vec2Set& r) const{
+		return Vec2Set{this->x_ + r.x_, this->y_ + r.y_};
+	}
 	int f_{};
 	int g_{};
 	int h_{};
 	Vec2Set* cameFrom{nullptr};
 };
 
-typedef std::vector<Vec2Set> PathSet;
+class PathSet : public std::list<Vec2Set>{
+public:
+	bool isContain(const Vec2Set& p){
+		return std::any_of(this->begin(),this->end(),[&](const Vec2Set& it){
+			return it == p;
+		});
+	}
+};
 
 #endif //A_START_VEC2I_HPP

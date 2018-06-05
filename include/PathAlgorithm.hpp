@@ -13,6 +13,12 @@ class PathAlgorithm {
 public:
 	static Path getShortPath(const Map& map);
 	static Path reconstructPath(const Vec2Set& current);
+	static void getNeighbors(const Vec2Set& current,Vec2Set neighbors[]);
+	static std::list<Vec2Set>::iterator findTheBestF(PathSet& path);
+	static int dist_between(const Vec2Set& x, const Vec2Set& y);
+	static int calculateG(const Vec2i& start,const Vec2Set& node);
+private:
+	static Vec2Set deviation[8];
 };
 
 
