@@ -23,10 +23,10 @@ void Map::setCell(int16_t x, int16_t y, CellState status) {
 		printf("%s,%d,setCell out of boundary",__FUNCTION__,__LINE__);
 }
 
-CellState Map::getCell(int16_t x, int16_t y) const{
+CellState Map::getCell(const int16_t& x, const int16_t& y) const{
 	CellState  status;
-	int16_t row = static_cast<int16_t>(MAP_SIZE / 2 + x);
-	int16_t column = static_cast<int16_t>(MAP_SIZE / 2 - y);
+	auto row = static_cast<int16_t>(MAP_SIZE / 2 + x);
+	auto column = static_cast<int16_t>(MAP_SIZE / 2 - y);
 	if(row > 0 && row < MAP_SIZE && column > 0 && column < MAP_SIZE)
 		status = cleanMap_[row][column];
 	else
@@ -34,7 +34,7 @@ CellState Map::getCell(int16_t x, int16_t y) const{
 	return status;
 }
 
-void Map::printMap() const {
+void Map::printMap(const Path& path) const {
 	ostringstream outString;
 	outString.str("");
 	outString << '\t' << '\t';
@@ -65,6 +65,9 @@ void Map::printMap() const {
 				outString << 'x';
 			else if (status == TARGET)
 				outString << 'e';
+			else if(std::any_of(path.begin(),path.end(),[&](const Vec2i& node){return node.x_ == k && node.y_ == j;})){
+				outString << '>';
+			}
 			else
 				outString << status;
 		}
@@ -75,4 +78,9 @@ void Map::printMap() const {
 
 void Map::clearMap() {
 	memset(cleanMap_,0,sizeof(cleanMap_));
+}
+
+bool Map::isNotAccessible(const Vec2Set &node)const {
+	CellState status = getCell(node.x_, node.y_);
+	return status == OBSTACLE;
 }

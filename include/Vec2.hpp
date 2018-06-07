@@ -22,7 +22,7 @@ public:
 	}
 };
 
-typedef Vec2<int> Vec2i;
+typedef Vec2<int16_t> Vec2i;
 typedef std::vector<Vec2i> Path;
 
 class Vec2Set : public Vec2i{

@@ -11,16 +11,18 @@
 
 class PathAlgorithm {
 public:
-	static Path getShortPath(const Map& map);
-	static Path reconstructPath(const Vec2Set& current);
-	static void getNeighbors(const Vec2Set& current, const Map& map, Vec2Set neighbors[]);
-	static Vec2Set findTheBestF(PathSet& path);
-	static int dist_between(const Vec2Set& x, const Vec2Set& y);
-	static int calculateG(const Vec2i& start,const Vec2Set& node);
-	static int heuristic(const Vec2i& start, const Vec2i& target);
+	Path getShortPath(const Map& map);
+	Path reconstructPath(const Vec2Set& current);
+	void getNeighbors(Vec2Set& current, const Map& map, Vec2Set neighbors[]);
+	Vec2Set findTheBestF(PathSet& path);
+	int dist_between(const Vec2Set& x, const Vec2Set& y);
+	int calculateG(const Vec2i& start,const Vec2Set& node);
+	int heuristic(const Vec2i& start, const Vec2i& target);
 private:
-	static Vec2Set deviation[8];
-	static Path path;
+	Path path{};
+	Vec2Set deviation[8] = {Vec2Set{-1,1}, Vec2Set{0,1},   Vec2Set{1,1},
+																				 Vec2Set{-1,0},                 Vec2Set{1,0},
+																				 Vec2Set{-1,-1}, Vec2Set{0,-1}, Vec2Set{1,-1}};
 };
 
 

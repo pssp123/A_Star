@@ -18,15 +18,17 @@ enum CellState{
 typedef std::pair<CellState,Vec2i> Cell;
 class Map{
 public:
+	Map(){};
 	Map(const Vec2i& _current, const Vec2i& _target){
 		current_ = _current;
 		target_ = _target;
 	}
 
 	void setCell(int16_t x, int16_t y, CellState status);
-	CellState getCell(int16_t x, int16_t y) const;
-	void printMap() const;
+	CellState getCell(const int16_t& x, const int16_t& y) const;
+	void printMap(const Path& path) const;
 	void clearMap();
+	bool isNotAccessible(const Vec2Set &node)const;
 	Vec2i getCurrent() const{
 		return current_;
 	}
@@ -41,6 +43,6 @@ private:
 	int16_t xMax_{};
 	int16_t yMin_{};
 	int16_t yMax_{};
-	CellState cleanMap_[MAP_SIZE][MAP_SIZE];
+	CellState cleanMap_[MAP_SIZE][MAP_SIZE]{};
 };
 #endif //A_START_MAP_HPP
