@@ -48,7 +48,6 @@ public:
 	double f_{};
 	int g_{};
 	double h_{};
-	Vec2Set* p_cameFrom_{nullptr};
 };
 
 class PathSet : public std::list<Vec2Set>{

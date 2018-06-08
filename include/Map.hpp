@@ -19,7 +19,7 @@ typedef std::pair<CellState,Vec2i> Cell;
 class Map{
 public:
 	Map(){};
-	Map(const Vec2i& _current, const Vec2i& _target){
+	Map(const Vec2Set& _current, const Vec2Set& _target){
 		current_ = _current;
 		target_ = _target;
 	}
@@ -29,16 +29,16 @@ public:
 	void printMap(const Path& path) const;
 	void clearMap();
 	bool isNotAccessible(const Vec2Set &node)const;
-	Vec2i getCurrent() const{
+	Vec2Set getCurrent() const{
 		return current_;
 	}
-	Vec2i getTarget() const{
+	Vec2Set getTarget() const{
 		return target_;
 	}
 
 private:
-	Vec2i current_{};
-	Vec2i target_{};
+	Vec2Set current_{};
+	Vec2Set target_{};
 	int16_t xMin_{};
 	int16_t xMax_{};
 	int16_t yMin_{};

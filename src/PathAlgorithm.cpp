@@ -7,32 +7,21 @@
 #include <algorithm>
 #include <Generator.hpp>
 #include <cfloat>
+#include <map>
 #include <zconf.h>
 
 Path PathAlgorithm::getShortPath(const Map& map) {
 	PathSet closedSet;
 	PathSet openSet;
+	std::multimap<Vec2Set,Vec2Set> cameFrom;
+	cameFrom.insert({map.getCurrent(),map.getCurrent()});
 	int h = heuristic(map.getCurrent(), map.getTarget());
-	printf("h:%d\n",h);
 	openSet.push_back(Vec2Set{map.getCurrent().x_, map.getCurrent().y_, h, 0, h});
 
 	while (!openSet.empty()) {
 		auto current = findTheBestF(openSet);
-//		printf("p(%d,%d), f:%lf, g:%d, h:%lf\n",current.x_,current.y_,current.f_,current.g_,current.h_);
-		if (current == map.getTarget()) {
-/*			Path p;
-			while(current.p_cameFrom_ != nullptr){
-				printf("(%d,%d)\n",current.x_,current.y_);
-				p.push_back(*current.p_cameFrom_);
-				current = *current.p_cameFrom_;
-			}*/
-/*			for (auto &func:closedSet)
-				if (func.p_cameFrom_ != nullptr)
-					printf("(%d,%d),(%d,%d)\n", func.x_, func.y_, func.p_cameFrom_->x_, func.p_cameFrom_->y_);
-			printf("\n\n");*/
-//			printf("(%d,%d),(%d,%d)\n",current.x_,current.y_,current.p_cameFrom_->x_,current.p_cameFrom_->y_);
-			return Path{};
-		}
+		if (current == map.getTarget())
+			return reconstructPath(cameFrom,current);
 		closedSet.push_back(current);
 		openSet.erase(std::find_if(openSet.begin(),openSet.end(),[&](const Vec2Set& node){
 			return node == current;
@@ -44,49 +33,47 @@ Path PathAlgorithm::getShortPath(const Map& map) {
 			if (closedSet.isContain(neibor) || map.isNotAccessible(neibor))
 				continue;
 			if (!openSet.isContain(neibor))
+			{
+				neibor.g_ = calculateG(current,map.getCurrent());
+				neibor.h_ = heuristic(current,map.getTarget());
+				neibor.f_ = neibor.g_ + neibor.h_;
+//				cameFrom[neibor] = current;
+				cameFrom.insert({neibor,current});
 				openSet.push_back(neibor);
+				printf("size:%d (%d,%d)\n",cameFrom.size(),neibor.x_,neibor.y_);
+			}
 			int tentative_g_score = current.g_ + dist_between(current, neibor);
 			if (tentative_g_score > neibor.g_)
-			{
-//				printf("x:%d, y:%d,current.g_:%d, dis_between:%d, tentative_G_socre:%d, neibor.g:%d\n",neibor.x_,neibor.y_,current.g_,dist_between(current, neibor),tentative_g_score,neibor.g_);
 				continue;
-			}
 			auto func = std::find_if(openSet.begin(),openSet.end(),[&](Vec2Set node){
 				return node == neibor;
 			});
-			func->p_cameFrom_ = &closedSet.back();
+			//todo
 			func->g_ = tentative_g_score;
 			func->h_ = heuristic(neibor, map.getTarget());
 			func->f_ = func->g_ + func->h_;
-
-//			printf("(%d,%d),(%d,%d)\n",func->x_,func->y_,func->p_cameFrom_->x_,func->p_cameFrom_->y_);
-//			printf("neibor.x:%d, neibor.y:%d, f:%lf, g:%d, h:%lf\n",neibor.x_,neibor.y_,neibor.f_,neibor.g_,neibor.h_);
-//			usleep(1000000);
 		}
-//		printf("finished\n");
-//		for(const auto& p : openSet)
-//			printf("openSet.x:%d,openset.y:%d, f:%lf, g:%d, h:%lf\n",p.x_,p.y_,p.f_,p.g_,p.h_);
 	}
 	return Path{};
 }
 
-Path PathAlgorithm::reconstructPath(const Vec2Set& current){
-	path.push_back(current);
-	if(current.p_cameFrom_ != nullptr) reconstructPath(*current.p_cameFrom_);
+Path PathAlgorithm::reconstructPath(std::multimap<Vec2Set,Vec2Set>& cameFrom, Vec2Set current){
+	Path path{};
+	printf("Start: size(%d) current(%d,%d)\n", static_cast<int>(cameFrom.size()),current.x_,current.y_);
+	while(cameFrom.find(current) != cameFrom.end()){
+		printf("111\n");
+		path.push_back(cameFrom.find(current)->first);
+		current = cameFrom.find(current)->first;
+	}
+	printf("end\n");
+	for(const auto& p : cameFrom)
+		printf("(%d,%d)\n",p.first.x_,p.first.y_);
 	return path;
 }
 
 void PathAlgorithm::getNeighbors(Vec2Set& current, const Map& map, Vec2Set neighbors[]) {
 	for(int i = 0; i < 8; i++)
-	{
 		neighbors[i] = current + deviation[i];
-		neighbors[i].p_cameFrom_ = &current;
-//		printf("(%d,%d), (%d,%d)\n",neighbors[i].x_,neighbors[i].y_,neighbors[i].p_cameFrom_->x_,neighbors[i].p_cameFrom_->y_);
-		neighbors[i].g_ = calculateG(map.getCurrent(),neighbors[i]);
-		neighbors[i].h_ = heuristic(neighbors[i],map.getTarget());
-		neighbors[i].f_ = neighbors[i].g_ + neighbors[i].h_;
-	}
-//	printf("\n\n");
 }
 
 int PathAlgorithm::dist_between(const Vec2Set &x, const Vec2Set &y){
@@ -94,14 +81,21 @@ int PathAlgorithm::dist_between(const Vec2Set &x, const Vec2Set &y){
 }
 
 Vec2Set PathAlgorithm::findTheBestF(PathSet &path) {
+/*	for(const auto& p : path){
+		if (p.p_cameFrom_ != nullptr)
+			printf("findTheBest:(%d,%d) (%d,%d)\n", p.x_, p.y_, p.p_cameFrom_->x_, p.p_cameFrom_->y_);
+	}*/
 	double score = DBL_MAX;
-//	std::list<Vec2Set>::iterator ret;
 	Vec2Set ret;
-	for(const Vec2Set& p : path){
+	for(auto& p : path){
+//		if (p.p_cameFrom_ != nullptr)
+//			printf("22222findTheBest:(%d,%d) (%d,%d)\n", p.x_, p.y_, p.p_cameFrom_->x_, p.p_cameFrom_->y_);
 		if(p.f_ < score){
 			score = p.f_;
 			ret = p;
 		}
+//		if (p.p_cameFrom_ != nullptr)
+//			printf("22222findTheBest:(%d,%d) (%d,%d)\n\n", p.x_, p.y_, p.p_cameFrom_->x_, p.p_cameFrom_->y_);
 	}
 	return ret;
 }
