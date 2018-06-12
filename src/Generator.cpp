@@ -18,8 +18,14 @@ void Generator::generataMap(Map& map) {
 	for(int16_t i = -20; i < 20; i++)
 		map.setCell(i,20,OBSTACLE);
 	//set wall
-	for(int16_t i = -10; i < 10; i++)
+	for(int16_t i = -10; i <= 10; i++)
 		map.setCell(10,i,OBSTACLE);
+	for(int16_t i = -8; i <= 10; i++)
+		map.setCell(-10,i,OBSTACLE);
+	for(int16_t i = -10; i <= 10; i++)
+		map.setCell(i,10,OBSTACLE);
+	for(int16_t i = -10; i <= 10; i++)
+		map.setCell(i,-10,OBSTACLE);
 
 	//set current and target
 	map.setCell(map.getCurrent().x_,map.getCurrent().y_,START);

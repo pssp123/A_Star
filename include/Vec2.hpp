@@ -1,12 +1,13 @@
 //
 // Created by pierre on 18-5-2.
 //
+#ifndef A_START_VEC2I_HPP
+#define A_START_VEC2I_HPP
+
 #include <queue>
 #include <list>
 #include <algorithm>
 
-#ifndef A_START_VEC2I_HPP
-#define A_START_VEC2I_HPP
 template <typename T>
 class Vec2{
 public:
@@ -59,4 +60,4 @@ public:
 	}
 };
 
-#endif //A_START_VEC2I_HPP
+#endif

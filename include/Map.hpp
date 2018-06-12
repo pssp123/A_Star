@@ -1,13 +1,14 @@
 //
 // Created by pierre on 18-5-2.
 //
+#ifndef A_START_MAP_HPP
+#define A_START_MAP_HPP
+
 #include <memory>
 #include <map>
 #include "Vec2.hpp"
 #include "../config/config.hpp"
 
-#ifndef A_START_MAP_HPP
-#define A_START_MAP_HPP
 enum CellState{
 	UNCLEANABLE = 0,
 	START,

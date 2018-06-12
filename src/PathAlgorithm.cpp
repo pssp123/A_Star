@@ -21,7 +21,7 @@ Path PathAlgorithm::getShortPath(const Map& map) {
 	while (!openSet.empty()) {
 		auto current = findTheBestF(openSet);
 		if (current == map.getTarget())
-			return reconstructPath(cameFrom,current);
+			return reconstructPath(cameFrom,current,map);
 		closedSet.push_back(current);
 		openSet.erase(std::find_if(openSet.begin(),openSet.end(),[&](const Vec2Set& node){
 			return node == current;
@@ -34,13 +34,11 @@ Path PathAlgorithm::getShortPath(const Map& map) {
 				continue;
 			if (!openSet.isContain(neibor))
 			{
-				neibor.g_ = calculateG(current,map.getCurrent());
-				neibor.h_ = heuristic(current,map.getTarget());
+				neibor.g_ = calculateG(neibor,map.getCurrent());
+				neibor.h_ = heuristic(neibor,map.getTarget());
 				neibor.f_ = neibor.g_ + neibor.h_;
-//				cameFrom[neibor] = current;
 				cameFrom.insert({neibor,current});
 				openSet.push_back(neibor);
-				printf("size:%d (%d,%d)\n",cameFrom.size(),neibor.x_,neibor.y_);
 			}
 			int tentative_g_score = current.g_ + dist_between(current, neibor);
 			if (tentative_g_score > neibor.g_)
@@ -52,22 +50,30 @@ Path PathAlgorithm::getShortPath(const Map& map) {
 			func->g_ = tentative_g_score;
 			func->h_ = heuristic(neibor, map.getTarget());
 			func->f_ = func->g_ + func->h_;
+//			for(const auto& it : openSet)
+//				printf("it(%d,%d), father(%d,%d), f(%lf), g(%d), h(%lf)\n",it.x_,it.y_,current.x_,current.y_,it.f_,it.g_,it.h_);
+//			printf("\n");
 		}
 	}
 	return Path{};
 }
 
-Path PathAlgorithm::reconstructPath(std::multimap<Vec2Set,Vec2Set>& cameFrom, Vec2Set current){
+Path PathAlgorithm::reconstructPath(std::multimap<Vec2Set,Vec2Set>& cameFrom, Vec2Set current, const Map& map){
 	Path path{};
-	printf("Start: size(%d) current(%d,%d)\n", static_cast<int>(cameFrom.size()),current.x_,current.y_);
-	while(cameFrom.find(current) != cameFrom.end()){
-		printf("111\n");
-		path.push_back(cameFrom.find(current)->first);
-		current = cameFrom.find(current)->first;
+//	printf("Start: size(%d) current(%d,%d)\n", static_cast<int>(cameFrom.size()),current.x_,current.y_);
+	auto fun_any_of = [&](const std::multimap<Vec2Set,Vec2Set>::value_type& it){
+		return it.first == current;
+	};
+	while(std::any_of(cameFrom.begin(),cameFrom.end(),fun_any_of) && !(current == map.getCurrent())){
+		auto it = std::find_if(cameFrom.begin(),cameFrom.end(),fun_any_of);
+		path.push_back(it->first);
+//		printf("(%d,%d)\n",it->second.x_,it->second.y_);
+		current = it->second;
 	}
-	printf("end\n");
-	for(const auto& p : cameFrom)
-		printf("(%d,%d)\n",p.first.x_,p.first.y_);
+//	for(const auto& p : cameFrom)
+//		printf("(%d,%d)\n",p.first.x_,p.first.y_);
+//	for(const auto& p : path)
+//		printf("(%d,%d)\n",p.x_,p.y_);
 	return path;
 }
 

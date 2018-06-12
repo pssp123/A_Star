@@ -1,10 +1,11 @@
 //
 // Created by pierre on 18-5-3.
 //
-#include "Map.hpp"
-
 #ifndef A_START_GENERATOR_HPP
 #define A_START_GENERATOR_HPP
+
+#include "Map.hpp"
+
 class Generator{
 public:
 	static Generator* Instance(){
