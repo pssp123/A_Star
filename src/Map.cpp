@@ -34,7 +34,7 @@ CellState Map::getCell(const int16_t& x, const int16_t& y) const{
 	return status;
 }
 
-void Map::printMap(const Path& path) const {
+void Map::printMap(const PathSet& path) const {
 	ostringstream outString;
 	outString.str("");
 	outString << '\t' << '\t';
@@ -65,7 +65,7 @@ void Map::printMap(const Path& path) const {
 				outString << 'x';
 			else if (status == TARGET)
 				outString << 'e';
-			else if(std::any_of(path.begin(),path.end(),[&](const Vec2i& node){return node.x_ == k && node.y_ == j;})){
+			else if(std::any_of(path.begin(),path.end(),[&](const Vec2Set& node){return node.x_ == k && node.y_ == j;})){
 				outString << '>';
 			}
 			else

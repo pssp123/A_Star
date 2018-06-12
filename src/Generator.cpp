@@ -2,7 +2,6 @@
 // Created by pierre on 18-5-3.
 //
 #include <cstdint>
-#include <cmath>
 #include "Vec2.hpp"
 #include "Generator.hpp"
 #include "PathAlgorithm.hpp"
@@ -33,7 +32,7 @@ void Generator::generataMap(Map& map) {
 }
 
 
-Path Generator::getShortPath(const Map &map) {
+PathSet Generator::getShortPath(const Map &map) {
 	PathAlgorithm pathAlgorithm;
 	return pathAlgorithm.getShortPath(map);
 }

@@ -11,13 +11,12 @@
 
 class PathAlgorithm {
 public:
-	Path getShortPath(const Map& map);
-	Path reconstructPath(std::multimap<Vec2Set,Vec2Set>& cameFrom,Vec2Set current,const Map& map);
+	PathSet getShortPath(const Map& map);
+	PathSet reconstructPath(std::multimap<Vec2Set,Vec2Set>& cameFrom,Vec2Set current,const Map& map);
 	void getNeighbors(Vec2Set& current, const Map& map, Vec2Set neighbors[]);
-	Vec2Set findTheBestF(PathSet& path);
 	int dist_between(const Vec2Set& x, const Vec2Set& y);
-	int calculateG(const Vec2i& start,const Vec2Set& node);
-	int heuristic(const Vec2i& start, const Vec2i& target);
+	int calculateG(const Vec2Set& start,const Vec2Set& node);
+	int heuristic(const Vec2Set& start, const Vec2Set& target);
 private:
 	Vec2Set deviation[8] = {Vec2Set{-1,1}, Vec2Set{0,1},   Vec2Set{1,1},
 																				 Vec2Set{-1,0},                 Vec2Set{1,0},

@@ -13,7 +13,7 @@ public:
 		return &instance;
 	}
 	void generataMap(Map& map);
-	Path getShortPath(const Map& map);
+	PathSet getShortPath(const Map& map);
 };
 
 #endif //A_START_GENERATOR_HPP

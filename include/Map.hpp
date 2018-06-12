@@ -16,7 +16,6 @@ enum CellState{
 	CLEANABLE,
 	OBSTACLE,
 };
-typedef std::pair<CellState,Vec2i> Cell;
 class Map{
 public:
 	Map(){};
@@ -27,7 +26,7 @@ public:
 
 	void setCell(int16_t x, int16_t y, CellState status);
 	CellState getCell(const int16_t& x, const int16_t& y) const;
-	void printMap(const Path& path) const;
+	void printMap(const PathSet& path) const;
 	void clearMap();
 	bool isNotAccessible(const Vec2Set &node)const;
 	Vec2Set getCurrent() const{
