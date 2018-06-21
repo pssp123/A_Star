@@ -32,7 +32,7 @@ void Generator::generataMap(Map& map) {
 }
 
 
-PathSet Generator::getShortPath(const Map &map) {
+RBT Generator::getShortPath(const Map &map) {
 	PathAlgorithm pathAlgorithm;
 	return pathAlgorithm.getShortPath(map);
 }

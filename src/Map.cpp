@@ -2,6 +2,7 @@
 // Created by pierre on 18-5-3.
 //
 #include <Map.hpp>
+#include <algorithm>
 
 #include "gtest/gtest.h"
 using namespace std;
@@ -34,7 +35,7 @@ CellState Map::getCell(const int16_t& x, const int16_t& y) const{
 	return status;
 }
 
-void Map::printMap(const PathSet& path) const {
+void Map::printMap(RBT& path) const {
 	ostringstream outString;
 	outString.str("");
 	outString << '\t' << '\t';
@@ -60,12 +61,13 @@ void Map::printMap(const PathSet& path) const {
 		outString << j;
 		outString << '\t';
 		for (auto k = xMin_; k <= xMax_; k++) {
+			Node n(k,j);
 			auto status = getCell(k, j);
 			if (status == START)
 				outString << 'x';
 			else if (status == TARGET)
 				outString << 'e';
-			else if(std::any_of(path.begin(),path.end(),[&](const Vec2Set& node){return node.x_ == k && node.y_ == j;})){
+			else if(path.isContain(n)){
 				outString << '>';
 			}
 			else
@@ -80,7 +82,7 @@ void Map::clearMap() {
 	memset(cleanMap_,0,sizeof(cleanMap_));
 }
 
-bool Map::isNotAccessible(const Vec2Set &node)const {
+bool Map::isNotAccessible(const Node &node)const {
 	CellState status = getCell(node.x_, node.y_);
 	return status == OBSTACLE;
 }

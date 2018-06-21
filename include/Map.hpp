@@ -19,26 +19,26 @@ enum CellState{
 class Map{
 public:
 	Map(){};
-	Map(const Vec2Set& _current, const Vec2Set& _target){
+	Map(const Node& _current, const Node& _target){
 		current_ = _current;
 		target_ = _target;
 	}
 
 	void setCell(int16_t x, int16_t y, CellState status);
 	CellState getCell(const int16_t& x, const int16_t& y) const;
-	void printMap(const PathSet& path) const;
+	void printMap(RBT& path) const;
 	void clearMap();
-	bool isNotAccessible(const Vec2Set &node)const;
-	Vec2Set getCurrent() const{
+	bool isNotAccessible(const Node &node)const;
+	Node getCurrent() const{
 		return current_;
 	}
-	Vec2Set getTarget() const{
+	Node getTarget() const{
 		return target_;
 	}
 
 private:
-	Vec2Set current_{};
-	Vec2Set target_{};
+	Node current_{};
+	Node target_{};
 	int16_t xMin_{};
 	int16_t xMax_{};
 	int16_t yMin_{};
